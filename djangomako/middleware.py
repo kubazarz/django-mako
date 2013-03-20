@@ -25,12 +25,18 @@ class MakoMiddleware(object):
         module_directory = getattr(settings, 'MAKO_MODULE_DIR', tempfile.mkdtemp())
         output_encoding  = getattr(settings, 'MAKO_OUTPUT_ENCODING', 'utf-8')
         encoding_errors  = getattr(settings, 'MAKO_ENCODING_ERRORS', 'replace')
+        cache_enabled = getattr(settings, 'MAKO_CACHE_ENABLED', True)
+
+        options = {}
+        if cache_enabled:
+            options['cache_impl'] = 'djangomakocache'
         
         global lookup
         lookup = TemplateLookup(directories=directories, 
                                 module_directory=module_directory,
                                 output_encoding=output_encoding, 
                                 encoding_errors=encoding_errors,
+                                **options
                                 )
         import djangomako
         djangomako.lookup = lookup

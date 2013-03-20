@@ -14,3 +14,9 @@
 
 lookup = None
 
+
+try:
+    import djangomako.cache_plugin
+except:
+    print "Can't import cache plugin"
+    pass
